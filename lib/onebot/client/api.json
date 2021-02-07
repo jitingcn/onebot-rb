@@ -1,0 +1,1322 @@
+{
+  "send_private_msg": {
+    "title": "发送私聊消息",
+    "params": {
+      "user_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "对方 QQ 号"
+      },
+      "message": {
+        "type": "message",
+        "default": "-",
+        "description": "要发送的内容"
+      },
+      "auto_escape": {
+        "type": "boolean",
+        "default": "false",
+        "description": "消息内容是否作为纯文本发送 ( 即不解析 CQ 码 ) , 只在 message 字段是字符串时有效"
+      }
+    },
+    "response": {
+      "message_id": {
+        "type": "int32",
+        "description": "消息 ID"
+      }
+    }
+  },
+  "send_group_msg": {
+    "title": " 发送群消息",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "群号"
+      },
+      "message": {
+        "type": "message",
+        "default": "-",
+        "description": "要发送的内容"
+      },
+      "auto_escape": {
+        "type": "boolean",
+        "default": "false",
+        "description": "消息内容是否作为纯文本发送 ( 即不解析 CQ 码) , 只在 message 字段是字符串时有效"
+      }
+    },
+    "response": {
+      "message_id": {
+        "type": "int32",
+        "description": "消息 ID"
+      }
+    }
+  },
+  "send_group_forward_msg": {
+    "title": "发送合并转发 ( 群 )",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "description": "群号"
+      },
+      "messages": {
+        "type": "forward node[]",
+        "description": "自定义转发消息, 具体看 CQcode"
+      }
+    },
+    "response": null
+  },
+  "send_msg": {
+    "title": "发送消息",
+    "params": {
+      "message_type": {
+        "type": "string",
+        "default": "-",
+        "description": "消息类型, 支持 private、group , 分别对应私聊、群组, 如不传入, 则根据传入的 *_id 参数判断"
+      },
+      "user_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "对方 QQ 号 ( 消息类型为 private 时需要 )"
+      },
+      "group_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "群号 ( 消息类型为 group 时需要 )"
+      },
+      "message": {
+        "type": "message",
+        "default": "-",
+        "description": "要发送的内容"
+      },
+      "auto_escape": {
+        "type": "boolean",
+        "default": "false",
+        "description": "消息内容是否作为纯文本发送 ( 即不解析 CQ 码 ) , 只在 message 字段是字符串时有效"
+      }
+    },
+    "response": {
+      "message_id": {
+        "type": "int32",
+        "description": "消息 ID"
+      }
+    }
+  },
+  "delete_msg": {
+    "title": "撤回消息",
+    "params": {
+      "message_id": {
+        "type": "int32",
+        "default": "-",
+        "description": "消息 ID"
+      }
+    },
+    "response": null
+  },
+  "get_msg": {
+    "title": "获取消息",
+    "params": {
+      "message_id": {
+        "type": "int32",
+        "description": "消息id"
+      }
+    },
+    "response": {
+      "message_id": {
+        "type": "int32",
+        "description": "消息id"
+      },
+      "real_id": {
+        "type": "int32",
+        "description": "消息真实id"
+      },
+      "sender": {
+        "type": "object",
+        "description": "发送者"
+      },
+      "time": {
+        "type": "int32",
+        "description": "发送时间"
+      },
+      "message": {
+        "type": "message",
+        "description": "消息内容"
+      },
+      "raw_message": {
+        "type": "message",
+        "description": "原始消息内容"
+      }
+    }
+  },
+  "get_forward_msg": {
+    "title": "获取合并转发内容",
+    "params": {
+      "message_id": {
+        "type": "string",
+        "description": "消息id"
+      }
+    },
+    "response": {
+      "messages": {
+        "type": "forward message[]",
+        "description": "消息列表"
+      }
+    }
+  },
+  "get_image": {
+    "title": "获取图片信息",
+    "params": {
+      "file": {
+        "type": "string",
+        "description": "图片缓存文件名"
+      }
+    },
+    "response": {
+      "size": {
+        "type": "int32",
+        "description": "图片源文件大小"
+      },
+      "filename": {
+        "type": "string",
+        "description": "图片文件原名"
+      },
+      "url": {
+        "type": "string",
+        "description": "图片下载地址"
+      }
+    }
+  },
+  "set_group_kick": {
+    "title": "群组踢人",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "群号"
+      },
+      "user_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "要踢的 QQ 号"
+      },
+      "reject_add_request": {
+        "type": "boolean",
+        "default": "false",
+        "description": "拒绝此人的加群请求"
+      }
+    },
+    "response": null
+  },
+  "set_group_ban": {
+    "title": "群组单人禁言",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "群号"
+      },
+      "user_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "要禁言的 QQ 号"
+      },
+      "duration": {
+        "type": "number",
+        "default": "30 * 60",
+        "description": "禁言时长, 单位秒, 0 表示取消禁言"
+      }
+    },
+    "response": null
+  },
+  "set_group_anonymous_ban": {
+    "title": "群组匿名用户禁言",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "群号"
+      },
+      "anonymous": {
+        "type": "object",
+        "default": "-",
+        "description": "可选, 要禁言的匿名用户对象（群消息上报的 anonymous 字段）"
+      },
+      "anonymous_flag": {
+        "type": "string",
+        "default": "-",
+        "description": "可选, 要禁言的匿名用户的 flag（需从群消息上报的数据中获得）"
+      },
+      "duration": {
+        "type": "number",
+        "default": "30 * 60",
+        "description": "禁言时长, 单位秒, 无法取消匿名用户禁言"
+      }
+    },
+    "response": null
+  },
+  "set_group_whole_ban": {
+    "title": "群组全员禁言",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "群号"
+      },
+      "enable": {
+        "type": "boolean",
+        "default": "true",
+        "description": "是否禁言"
+      }
+    },
+    "response": null
+  },
+  "set_group_admin": {
+    "title": "群组设置管理员",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "群号"
+      },
+      "user_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "要设置管理员的 QQ 号"
+      },
+      "enable": {
+        "type": "boolean",
+        "default": "true",
+        "description": "true 为设置, false 为取消"
+      }
+    },
+    "response": null
+  },
+  "set_group_anonymous": {
+    "title": "群组匿名",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "群号"
+      },
+      "enable": {
+        "type": "boolean",
+        "default": "true",
+        "description": "是否允许匿名聊天"
+      }
+    },
+    "response": null
+  },
+  "set_group_card": {
+    "title": "设置群名片 ( 群备注 )",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "群号"
+      },
+      "user_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "要设置的 QQ 号"
+      },
+      "card": {
+        "type": "string",
+        "default": "空",
+        "description": "群名片内容, 不填或空字符串表示删除群名片"
+      }
+    },
+    "response": null
+  },
+  "set_group_name": {
+    "title": "设置群名",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "description": "群号"
+      },
+      "group_name": {
+        "type": "string",
+        "description": "新群名"
+      }
+    },
+    "response": null
+  },
+  "set_group_leave": {
+    "title": "退出群组",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "群号"
+      },
+      "is_dismiss": {
+        "type": "boolean",
+        "default": "false",
+        "description": "是否解散, 如果登录号是群主, 则仅在此项为 true 时能够解散"
+      }
+    },
+    "response": null
+  },
+  "set_group_special_title": {
+    "title": "设置群组专属头衔",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "群号"
+      },
+      "user_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "要设置的 QQ 号"
+      },
+      "special_title": {
+        "type": "string",
+        "default": "空",
+        "description": "专属头衔, 不填或空字符串表示删除专属头衔"
+      },
+      "duration": {
+        "type": "number",
+        "default": "-1",
+        "description": "专属头衔有效期, 单位秒, -1 表示永久, 不过此项似乎没有效果, 可能是只有某些特殊的时间长度有效, 有待测试"
+      }
+    },
+    "response": null
+  },
+  "set_friend_add_request": {
+    "title": "处理加好友请求",
+    "params": {
+      "flag": {
+        "type": "string",
+        "default": "-",
+        "description": "加好友请求的 flag（需从上报的数据中获得）"
+      },
+      "approve": {
+        "type": "boolean",
+        "default": "true",
+        "description": "是否同意请求"
+      },
+      "remark": {
+        "type": "string",
+        "default": "空",
+        "description": "添加后的好友备注（仅在同意时有效）"
+      }
+    },
+    "response": null
+  },
+  "set_group_add_request": {
+    "title": "处理加群请求／邀请",
+    "params": {
+      "flag": {
+        "type": "string",
+        "default": "-",
+        "description": "加群请求的 flag（需从上报的数据中获得）"
+      },
+      "sub_type": {
+        "type": "string",
+        "default": "-",
+        "description": "add 或 invite, 请求类型（需要和上报消息中的 sub_type 字段相符）"
+      },
+      "approve": {
+        "type": "boolean",
+        "default": "true",
+        "description": "是否同意请求／邀请"
+      },
+      "reason": {
+        "type": "string",
+        "default": "空",
+        "description": "拒绝理由（仅在拒绝时有效）"
+      }
+    },
+    "response": null
+  },
+  "get_login_info": {
+    "title": "获取登录号信息",
+    "params": null,
+    "response": {
+      "user_id": {
+        "type": "int64",
+        "description": "QQ 号"
+      },
+      "nickname": {
+        "type": "string",
+        "description": "QQ 昵称"
+      }
+    }
+  },
+  "get_stranger_info": {
+    "title": "获取陌生人信息",
+    "params": {
+      "user_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "QQ 号"
+      },
+      "no_cache": {
+        "type": "boolean",
+        "default": "false",
+        "description": "是否不使用缓存（使用缓存可能更新不及时, 但响应更快）"
+      }
+    },
+    "response": {
+      "user_id": {
+        "type": "int64",
+        "description": "QQ 号"
+      },
+      "nickname": {
+        "type": "string",
+        "description": "昵称"
+      },
+      "sex": {
+        "type": "string",
+        "description": "性别, male 或 female 或 unknown"
+      },
+      "age": {
+        "type": "int32",
+        "description": "年龄"
+      },
+      "qid": {
+        "type": "string",
+        "description": "qid ID身份卡"
+      }
+    }
+  },
+  "get_friend_list": {
+    "title": "获取好友列表",
+    "params": null,
+    "response": "error"
+  },
+  "get_group_info": {
+    "title": "获取群信息",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "群号"
+      },
+      "no_cache": {
+        "type": "boolean",
+        "default": "false",
+        "description": "是否不使用缓存（使用缓存可能更新不及时, 但响应更快）"
+      }
+    },
+    "response": {
+      "group_id": {
+        "type": "int64",
+        "description": "群号"
+      },
+      "group_name": {
+        "type": "string",
+        "description": "群名称"
+      },
+      "member_count": {
+        "type": "int32",
+        "description": "成员数"
+      },
+      "max_member_count": {
+        "type": "int32",
+        "description": "最大成员数（群容量）"
+      }
+    }
+  },
+  "get_group_list": {
+    "title": "获取群列表",
+    "params": null,
+    "response": "error"
+  },
+  "get_group_member_info": {
+    "title": "获取群成员信息",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "群号"
+      },
+      "user_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "QQ 号"
+      },
+      "no_cache": {
+        "type": "boolean",
+        "default": "false",
+        "description": "是否不使用缓存（使用缓存可能更新不及时, 但响应更快）"
+      }
+    },
+    "response": {
+      "group_id": {
+        "type": "int64",
+        "description": "群号"
+      },
+      "user_id": {
+        "type": "int64",
+        "description": "QQ 号"
+      },
+      "nickname": {
+        "type": "string",
+        "description": "昵称"
+      },
+      "card": {
+        "type": "string",
+        "description": "群名片／备注"
+      },
+      "sex": {
+        "type": "string",
+        "description": "性别, male 或 female 或 unknown"
+      },
+      "age": {
+        "type": "int32",
+        "description": "年龄"
+      },
+      "area": {
+        "type": "string",
+        "description": "地区"
+      },
+      "join_time": {
+        "type": "int32",
+        "description": "加群时间戳"
+      },
+      "last_sent_time": {
+        "type": "int32",
+        "description": "最后发言时间戳"
+      },
+      "level": {
+        "type": "string",
+        "description": "成员等级"
+      },
+      "role": {
+        "type": "string",
+        "description": "角色, owner 或 admin 或 member"
+      },
+      "unfriendly": {
+        "type": "boolean",
+        "description": "是否不良记录成员"
+      },
+      "title": {
+        "type": "string",
+        "description": "专属头衔"
+      },
+      "title_expire_time": {
+        "type": "int64",
+        "description": "专属头衔过期时间戳"
+      },
+      "card_changeable": {
+        "type": "boolean",
+        "description": "是否允许修改群名片"
+      }
+    }
+  },
+  "get_group_member_list": {
+    "title": "获取群成员列表",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "群号"
+      }
+    },
+    "response": "error"
+  },
+  "get_group_honor_info": {
+    "title": "获取群荣誉信息",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "default": "-",
+        "description": "群号"
+      },
+      "type": {
+        "type": "string",
+        "default": "-",
+        "description": "要获取的群荣誉类型, 可传入 talkative performer legend strong_newbie emotion 以分别获取单个类型的群荣誉数据, 或传入 all 获取所有数据"
+      }
+    },
+    "response": {
+      "group_id": {
+        "type": "int64",
+        "description": "群号"
+      },
+      "current_talkative": {
+        "type": "object",
+        "description": "当前龙王, 仅 type 为 talkative 或 all 时有数据"
+      },
+      "talkative_list": {
+        "type": "array",
+        "description": "历史龙王, 仅 type 为 talkative 或 all 时有数据"
+      },
+      "performer_list": {
+        "type": "array",
+        "description": "群聊之火, 仅 type 为 performer 或 all 时有数据"
+      },
+      "legend_list": {
+        "type": "array",
+        "description": "群聊炽焰, 仅 type 为 legend 或 all 时有数据"
+      },
+      "strong_newbie_list": {
+        "type": "array",
+        "description": "冒尖小春笋, 仅 type 为 strong_newbie 或 all 时有数据"
+      },
+      "emotion_list": {
+        "type": "array",
+        "description": "快乐之源, 仅 type 为 emotion 或 all 时有数据"
+      }
+    }
+  },
+  "get_cookies": {
+    "title": "获取 Cookies",
+    "params": {
+      "domain": {
+        "type": "string",
+        "default": "空",
+        "description": "需要获取 cookies 的域名"
+      }
+    },
+    "response": {
+      "cookies": {
+        "type": "string",
+        "description": "Cookies"
+      }
+    }
+  },
+  "get_csrf_token": {
+    "title": "获取 CSRF Token",
+    "params": null,
+    "response": {
+      "token": {
+        "type": "int32",
+        "description": "CSRF Token"
+      }
+    }
+  },
+  "get_credentials": {
+    "title": "获取 QQ 相关接口凭证",
+    "params": {
+      "domain": {
+        "type": "string",
+        "default": "空",
+        "description": "需要获取 cookies 的域名"
+      }
+    },
+    "response": {
+      "cookies": {
+        "type": "string",
+        "description": "Cookies"
+      },
+      "csrf_token": {
+        "type": "int32",
+        "description": "CSRF Token"
+      }
+    }
+  },
+  "get_record": {
+    "title": "获取语音",
+    "params": {
+      "file": {
+        "type": "string",
+        "default": "-",
+        "description": "收到的语音文件名（消息段的 file 参数）, 如 0B38145AA44505000B38145AA4450500.silk"
+      },
+      "out_format": {
+        "type": "string",
+        "default": "-",
+        "description": "要转换到的格式, 目前支持 mp3、amr、wma、m4a、spx、ogg、wav、flac"
+      }
+    },
+    "response": {
+      "file": {
+        "type": "string",
+        "description": "转换后的语音文件路径, 如 /home/somebody/cqhttp/data/record/0B38145AA44505000B38145AA4450500.mp3"
+      }
+    }
+  },
+  "can_send_image": {
+    "title": "检查是否可以发送图片",
+    "params": null,
+    "response": {
+      "yes": {
+        "type": "boolean",
+        "description": "是或否"
+      }
+    }
+  },
+  "can_send_record": {
+    "title": "检查是否可以发送语音",
+    "params": null,
+    "response": {
+      "yes": {
+        "type": "boolean",
+        "description": "是或否"
+      }
+    }
+  },
+  "get_version_info": {
+    "title": "获取版本信息",
+    "params": null,
+    "response": {
+      "app_name": {
+        "type": "string",
+        "description": "应用标识, 如 mirai-native"
+      },
+      "app_version": {
+        "type": "string",
+        "description": "应用版本, 如 1.2.3"
+      },
+      "protocol_version": {
+        "type": "string",
+        "description": "OneBot 标准版本, 如 v11"
+      }
+    }
+  },
+  "set_restart": {
+    "title": "重启 go-cqhttp",
+    "params": {
+      "delay": {
+        "type": "number",
+        "default": "0",
+        "description": "要延迟的毫秒数, 如果默认情况下无法重启, 可以尝试设置延迟为 2000 左右"
+      }
+    },
+    "response": null
+  },
+  "clean_cache": {
+    "title": "清理缓存",
+    "params": null,
+    "response": null
+  },
+  "set_group_portrait": {
+    "title": "设置群头像",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "description": "群号"
+      },
+      "file": {
+        "type": "string",
+        "description": "图片文件名"
+      },
+      "cache": {
+        "type": "int",
+        "description": "表示是否使用已缓存的文件"
+      }
+    },
+    "response": null
+  },
+  ".get_word_slices": {
+    "title": "获取中文分词 ( 隐藏 API )",
+    "params": {
+      "content": {
+        "type": "string",
+        "description": "内容"
+      }
+    },
+    "response": {
+      "slices": {
+        "type": "string[]",
+        "description": "词组"
+      }
+    }
+  },
+  ".ocr_image": {
+    "title": "图片 OCR",
+    "params": {
+      "image": {
+        "type": "string",
+        "description": "图片ID"
+      }
+    },
+    "response": {
+      "texts": {
+        "type": "TextDetection[]",
+        "description": "OCR结果"
+      },
+      "language": {
+        "type": "string",
+        "description": "语言"
+      }
+    },
+    "others": {
+      "text": {
+        "type": "string",
+        "description": "文本"
+      },
+      "confidence": {
+        "type": "int32",
+        "description": "置信度"
+      },
+      "coordinates": {
+        "type": "vector2",
+        "description": "坐标"
+      }
+    }
+  },
+  "get_group_system_msg": {
+    "title": "获取群系统消息",
+    "params": null,
+    "response": {
+      "invited_requests": {
+        "type": "InvitedRequest[]",
+        "description": "邀请消息列表"
+      },
+      "join_requests": {
+        "type": "JoinRequest[]",
+        "description": "进群消息列表"
+      }
+    },
+    "others": {
+      "request_id": {
+        "type": "int64",
+        "description": "请求ID"
+      },
+      "requester_uin": {
+        "type": "int64",
+        "description": "请求者ID"
+      },
+      "requester_nick": {
+        "type": "string",
+        "description": "请求者昵称"
+      },
+      "message": {
+        "type": "string",
+        "description": "验证消息"
+      },
+      "group_id": {
+        "type": "int64",
+        "description": "群号"
+      },
+      "group_name": {
+        "type": "string",
+        "description": "群名"
+      },
+      "checked": {
+        "type": "bool",
+        "description": "是否已被处理"
+      },
+      "actor": {
+        "type": "int64",
+        "description": "处理者, 未处理为0"
+      }
+    }
+  },
+  "upload_group_file": {
+    "title": "上传群文件",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "description": "群号"
+      },
+      "file": {
+        "type": "string",
+        "description": "本地文件路径"
+      },
+      "name": {
+        "type": "string",
+        "description": "储存名称"
+      },
+      "folder": {
+        "type": "string",
+        "description": "父目录ID"
+      }
+    },
+    "response": null
+  },
+  "get_group_file_system_info": {
+    "title": "获取群文件系统信息",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "description": "群号"
+      }
+    },
+    "response": {
+      "file_count": {
+        "type": "int32",
+        "description": "文件总数"
+      },
+      "limit_count": {
+        "type": "int32",
+        "description": "文件上限"
+      },
+      "used_space": {
+        "type": "int64",
+        "description": "已使用空间"
+      },
+      "total_space": {
+        "type": "int64",
+        "description": "空间上限"
+      }
+    }
+  },
+  "get_group_root_files": {
+    "title": "获取群根目录文件列表",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "description": "群号"
+      }
+    },
+    "response": {
+      "files": {
+        "type": "File[]",
+        "description": "文件列表"
+      },
+      "folders": {
+        "type": "Folder[]",
+        "description": "文件夹列表"
+      }
+    }
+  },
+  "get_group_files_by_folder": {
+    "title": "获取群子目录文件列表",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "description": "群号"
+      },
+      "folder_id": {
+        "type": "string",
+        "description": "文件夹ID 参考 Folder 对象"
+      }
+    },
+    "response": {
+      "files": {
+        "type": "File[]",
+        "description": "文件列表"
+      },
+      "folders": {
+        "type": "Folder[]",
+        "description": "文件夹列表"
+      }
+    }
+  },
+  "get_group_file_url": {
+    "title": "获取群文件资源链接",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "description": "群号"
+      },
+      "file_id": {
+        "type": "string",
+        "description": "文件ID 参考 File 对象"
+      },
+      "busid": {
+        "type": "int32",
+        "description": "文件类型 参考 File 对象"
+      }
+    },
+    "response": {
+      "url": {
+        "type": "string",
+        "description": "文件下载链接"
+      }
+    },
+    "others": {
+      "folder_id": {
+        "type": "string",
+        "description": "文件夹ID"
+      },
+      "folder_name": {
+        "type": "string",
+        "description": "文件名"
+      },
+      "create_time": {
+        "type": "int64",
+        "description": "创建时间"
+      },
+      "creator": {
+        "type": "int64",
+        "description": "创建者"
+      },
+      "creator_name": {
+        "type": "string",
+        "description": "创建者名字"
+      },
+      "total_file_count": {
+        "type": "int32",
+        "description": "子文件数量"
+      }
+    }
+  },
+  "get_status": {
+    "title": "获取状态",
+    "params": null,
+    "response": {
+      "app_initialized": {
+        "type": "bool",
+        "description": "原 CQHTTP 字段, 恒定为 true"
+      },
+      "app_enabled": {
+        "type": "bool",
+        "description": "原 CQHTTP 字段, 恒定为 true"
+      },
+      "plugins_good": {
+        "type": "bool",
+        "description": "原 CQHTTP 字段, 恒定为 true"
+      },
+      "app_good": {
+        "type": "bool",
+        "description": "原 CQHTTP 字段, 恒定为 true"
+      },
+      "online": {
+        "type": "bool",
+        "description": "表示BOT是否在线"
+      },
+      "goold": {
+        "type": "bool",
+        "description": "同 online"
+      },
+      "stat": {
+        "type": "Statistics",
+        "description": "运行统计"
+      }
+    },
+    "others": {
+      "packet_received": {
+        "type": "uint64",
+        "description": "收到的数据包总数"
+      },
+      "packet_sent": {
+        "type": "uint64",
+        "description": "发送的数据包总数"
+      },
+      "packet_lost": {
+        "type": "uint32",
+        "description": "数据包丢失总数"
+      },
+      "message_received": {
+        "type": "uint64",
+        "description": "接受信息总数"
+      },
+      "message_sent": {
+        "type": "uint64",
+        "description": "发送信息总数"
+      },
+      "disconnect_times": {
+        "type": "uint32",
+        "description": "TCP 链接断开次数"
+      },
+      "lost_times": {
+        "type": "uint32",
+        "description": "账号掉线次数"
+      }
+    }
+  },
+  "get_group_at_all_remain": {
+    "title": "获取群 @全体成员 剩余次数",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "description": "群号"
+      }
+    },
+    "response": {
+      "can_at_all": {
+        "type": "bool",
+        "description": "是否可以 @全体成员"
+      },
+      "remain_at_all_count_for_group": {
+        "type": "int16",
+        "description": "群内所有管理当天剩余 @全体成员 次数"
+      },
+      "remain_at_all_count_for_uin": {
+        "type": "int16",
+        "description": "Bot 当天剩余 @全体成员 次数"
+      }
+    }
+  },
+  ".handle_quick_operation": {
+    "title": "对事件执行快速操作 ( 隐藏 API )",
+    "params": {
+      "context": {
+        "type": "object",
+        "default": "-",
+        "description": "事件数据对象, 可做精简, 如去掉 message 等无用字段"
+      },
+      "operation": {
+        "type": "object",
+        "default": "-",
+        "description": "快速操作对象, 例如 {\"ban\": true, \"reply\": \"请不要说脏话\"}"
+      }
+    },
+    "response": null
+  },
+  "_get_vip_info": {
+    "title": "获取VIP信息",
+    "params": {
+      "user_id": {
+        "type": "int64",
+        "default": "",
+        "description": "QQ 号"
+      }
+    },
+    "response": {
+      "user_id": {
+        "type": "int64",
+        "description": "QQ 号"
+      },
+      "nickname": {
+        "type": "string",
+        "description": "用户昵称"
+      },
+      "level": {
+        "type": "int64",
+        "description": "QQ 等级"
+      },
+      "level_speed": {
+        "type": "float64",
+        "description": "等级加速度"
+      },
+      "vip_level": {
+        "type": "string",
+        "description": "会员等级"
+      },
+      "vip_growth_speed": {
+        "type": "int64",
+        "description": "会员成长速度"
+      },
+      "vip_growth_total": {
+        "type": "int64",
+        "description": "会员成长总值"
+      }
+    }
+  },
+  "_send_group_notice": {
+    "title": "发送群公告",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "default": "",
+        "description": "群号"
+      },
+      "content": {
+        "type": "string",
+        "default": "",
+        "description": "公告内容"
+      }
+    },
+    "response": null
+  },
+  "reload_event_filter": {
+    "title": "重载事件过滤器",
+    "params": null,
+    "response": null
+  },
+  "download_file": {
+    "title": "下载文件到缓存目录",
+    "params": {
+      "url": {
+        "type": "string",
+        "description": "链接地址"
+      },
+      "thread_count": {
+        "type": "int32",
+        "description": "下载线程数"
+      },
+      "headers": {
+        "type": "string or array",
+        "description": "自定义请求头"
+      }
+    },
+    "response": {
+      "file": {
+        "type": "string",
+        "description": "下载文件的*绝对路径*"
+      }
+    },
+    "others": "error"
+  },
+  "get_online_clients": {
+    "title": "获取当前账号在线客户端列表",
+    "params": {
+      "no_cache": {
+        "type": "bool",
+        "description": "是否无视缓存"
+      }
+    },
+    "response": {
+      "clients": {
+        "type": "[]Device",
+        "description": "在线客户端列表"
+      }
+    },
+    "others": {
+      "app_id": {
+        "type": "int64",
+        "description": "客户端ID"
+      },
+      "device_name": {
+        "type": "string",
+        "description": "设备名称"
+      },
+      "device_kind": {
+        "type": "string",
+        "description": "设备类型"
+      }
+    }
+  },
+  "get_group_msg_history": {
+    "title": "获取群消息历史记录",
+    "params": null,
+    "response": {
+      "messages": {
+        "type": "[]Message",
+        "description": "从起始序号开始的前19条消息"
+      }
+    },
+    "others": {
+      "message_seq": {
+        "type": "int64",
+        "description": "起始消息序号, 可通过 get_msg 获得"
+      },
+      "group_id": {
+        "type": "int64",
+        "description": "群号"
+      }
+    }
+  },
+  "set_essence_msg": {
+    "title": "设置精华消息",
+    "params": {
+      "message_id": {
+        "type": "int32",
+        "description": "消息ID"
+      }
+    },
+    "response": "error"
+  },
+  "delete_essence_msg": {
+    "title": "移出精华消息",
+    "params": {
+      "message_id": {
+        "type": "int32",
+        "description": "消息ID"
+      }
+    },
+    "response": "error"
+  },
+  "get_essence_msg_list": {
+    "title": "获取精华消息列表",
+    "params": {
+      "group_id": {
+        "type": "int64",
+        "description": "群号"
+      }
+    },
+    "response": "error"
+  },
+  "check_url_safely": {
+    "title": "检查链接安全性",
+    "params": {
+      "url": {
+        "type": "string",
+        "description": "需要检查的链接"
+      }
+    },
+    "response": {
+      "level": {
+        "type": "int",
+        "description": "安全等级, 1: 安全 2: 未知 3: 危险"
+      }
+    }
+  }
+}

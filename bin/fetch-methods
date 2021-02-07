@@ -1,0 +1,102 @@
+#!/usr/bin/env ruby
+#
+# Fetch list of methods from go-cqhttp docs.
+
+require "json"
+require "open-uri"
+
+class API
+  attr_reader :api_docs_url
+  attr_accessor :functions, :current_title, :current_endpoint, :current_params, :current_response, :others
+
+  def initialize(api_docs_url = "https://raw.githubusercontent.com/ishkong/go-cqhttp-docs/main/docs/api/README.md")
+    @api_docs_url = api_docs_url.freeze
+    @functions = {}
+    @current_params = {}
+    @current_response = {}
+    @others = {}
+    parse_doc
+    @functions.freeze
+  end
+
+  def parse_table(table, type)
+    output = {}
+    table = table.split("\n").select { |i| i[0] == "|" }
+    head = table[0].split("|").map(&:strip)[1..-1]
+    head.map! do |i|
+      case i
+      when /字段/
+        i = "name"
+      when /类型/
+        i = "type"
+      when /默认/
+        i = "default"
+      when /说明/
+        i = "description"
+      end
+      i
+    end
+
+    data = table[2..-1].map do |line|
+      line.split("|").map do |row|
+        row.strip.delete("`")
+      end[1..-1]
+    end
+
+    data.each do |row|
+      row[0] = row[0].split("或")[0].delete(" ") if row[0].include? "或"
+      output[row[0]] = {}
+      row.size.times do |i|
+        next if head[i] == "name"
+
+        output[row[0]].merge!({ "#{head[i]}": row[i] })
+      end
+    end
+
+    instance_variable_set(type, output)
+  rescue NoMethodError
+    instance_variable_set(type, "error")
+  end
+
+  def parse_doc
+    URI.parse(@api_docs_url).open&.read&.split("## ")[1..-1].each do |data|
+      zone = data.split("\n\n")
+      @current_title = zone[0]
+      zone.each_with_index do |line, index|
+        @current_endpoint = line.gsub(%r{终结点.+`/(.+)`}, '\1') if line =~ /^终结点/
+
+        next unless line =~ /^\*\*(.+)\*\*/  # match **text**
+
+        type = line.gsub(/\*\*(.+)\*\*/, '\1')
+        case type
+        when "参数"
+          parse_table zone[index + 1], :@current_params if index + 1 <= zone.size - 1
+        when "响应数据"
+          parse_table zone[index + 1], :@current_response if index + 1 <= zone.size - 1
+        else
+          parse_table zone[index + 1], :@others if index + 1 <= zone.size - 1
+        end
+      end
+      add_function
+      cleanup
+    end
+  end
+
+  def add_function
+    return unless @current_endpoint
+
+    functions[@current_endpoint] = { title: @current_title, params: @current_params.empty? ? nil : @current_params,
+                                     response: @current_response.empty? ? nil : @current_response }
+    functions[@current_endpoint].merge!({ others: @others }) unless @others.empty?
+  end
+
+  def cleanup
+    @current_title = nil
+    @current_endpoint = nil
+    @current_params = {}
+    @current_response = {}
+    @others = {}
+  end
+end
+
+puts API.new.functions.then(&JSON.method(:pretty_generate))
